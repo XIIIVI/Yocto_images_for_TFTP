@@ -1,0 +1,11 @@
+[Unit]
+Description=A service to start the Geekworm X735 fan
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 DIR_INSTALL/pwm_fan_control.py
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

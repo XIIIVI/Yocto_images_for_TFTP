@@ -1,0 +1,13 @@
+[Unit]
+Description=Install al the nested Docker images
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=DIR_INSTALL/install-nested-images.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

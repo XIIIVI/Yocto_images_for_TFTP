@@ -1,0 +1,11 @@
+[Unit]
+Description=A service to start the Geekworm X735 fan every minute
+After=docker.service
+Requires=docker.service
+
+[Timer]
+OnCalendar=minutely
+Persistent=true
+
+[Install]
+WantedBy=timers.target

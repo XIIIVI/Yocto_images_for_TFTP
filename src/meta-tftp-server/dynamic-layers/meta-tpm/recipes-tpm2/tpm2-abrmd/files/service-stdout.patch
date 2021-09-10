@@ -1,0 +1,11 @@
+--- a/dist/tpm2-abrmd.service.in
++++ b/dist/tpm2-abrmd.service.in
+@@ -6,7 +6,7 @@ Type=dbus
+ Restart=always
+ RestartSec=5
+ BusName=com.intel.tss2.Tabrmd
+-StandardOutput=syslog
++StandardOutput=journal
+ ExecStart=@SBINDIR@/tpm2-abrmd
+ User=tss
+ 

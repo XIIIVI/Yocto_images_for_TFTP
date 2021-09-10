@@ -1,0 +1,15 @@
+[Unit]
+Description=A service to display information on the device on an OLED display
+After=docker.service install-nested-images.service
+Requires=docker.service install-nested-images.service
+
+[Service]
+Type=simple
+ExecStart=DIR_INSTALL/display-info.sh start
+ExecStop=DIR_INSTALL/display-info.sh stop
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,42 @@
+trigger:
+  branches:
+    include:
+    - refs/heads/develop
+jobs:
+- job: Job_1
+  displayName: Version updater
+  pool:
+    name: Default
+  steps:
+  - checkout: self
+  - task: gitversion/setup@0
+    displayName: gitversion/setup
+    inputs:
+      versionSpec: 5.x
+  - task: gitversion/execute@0
+    displayName: Get the version number with gitversion
+  - task: CmdLine@2
+    displayName: Update the build information
+    inputs:
+      script: >
+        sed -i "s/#-UNKNOWN_VERSION-#/$(Build.BuildNumber)/g" ./src/go.sh
+
+        sed -i "s#===BUILD_BRANCH===#$(Build.SourceBranch)#g" ./src/go.sh
+
+        cat ./src/go.sh
+      failOnStderr: true
+  - task: UniversalPackages@0
+    displayName: Publish the Yocto images builder
+    inputs:
+      command: publish
+      feedListDownload: bda0d8b7-b47b-4391-89c8-e3c36a9b6f31
+      versionListDownload: $(Build.BuildNumber)
+      publishDirectory: ./src
+      feedListPublish: 8339c8e6-dead-4722-b50a-59462596ed77
+      packageListPublish: image-builder
+      versionPublishSelector: custom
+      versionPublish: $(Build.BuildNumber)
+      packagePublishDescription: $(Build.SourceVersionMessage)
+  - task: PostBuildCleanup@3
+    displayName: Clean Agent Directories
+...

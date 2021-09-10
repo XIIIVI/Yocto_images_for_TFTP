@@ -1,0 +1,1 @@
+This folder host all the images to load on first boot

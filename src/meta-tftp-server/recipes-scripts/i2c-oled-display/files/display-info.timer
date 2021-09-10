@@ -1,0 +1,11 @@
+[Unit]
+Description=A service to display information on the device every minute
+After=docker.service install-nested-images.service
+Requires=docker.service install-nested-images.service
+
+[Timer]
+OnCalendar=minutely
+Persistent=true
+
+[Install]
+WantedBy=timers.target
