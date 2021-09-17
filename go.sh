@@ -194,7 +194,7 @@ replace_token() {
     
      for fileIndex in "${FILE_TO_PROCESS[@]}";		     
      do
-         log_info "[${fileIndex}] Replacing the token ${TOKEN} with the value ${VALUE}"
+         log_warning "[${fileIndex}] Replacing the token ${TOKEN} with the value ${VALUE}"
 
          if [[ "$(basename ${fileIndex})" != "go.sh" ]]; then
              if [ -f "${fileIndex}" ]; then
@@ -319,7 +319,7 @@ pull_and_save_docker_image() {
      if [ "${DOCKER_INSTANCE_COUNT}" -gt 0 ]; then
 	     log_warning "[SKIPPED] Docker image ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} is already installed"
 	 else	 
-         log_info "[INSTALLING] the Docker image for ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} running on the platform ${DOCKER_PLATFORM} in ${DOCKER_FOLDER}"
+         log_warning "[INSTALLING] the Docker image for ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} running on the platform ${DOCKER_PLATFORM} in ${DOCKER_FOLDER}"
          docker pull --platform "${DOCKER_PLATFORM}" "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}"
 	 fi
 
@@ -334,7 +334,7 @@ pull_and_save_docker_image() {
 #
 build_and_save_all_docker_images() {
 	 log_info "Building and saving all the Docker images"
-     log_debug "[INSTALLING] binfmt container"
+     log_warning "[INSTALLING] binfmt container"
      docker run --privileged --rm tonistiigi/binfmt --install all
 
      local DOCKERFILES=($(find ./src -name "*.Dockerfile"))
@@ -559,7 +559,7 @@ main() {
    # Update the KAS file depending on the targetted machine
    case "${MACHINE}" in 
          *raspberry*)
-		     KAS_FILES+=":config/raspberry.yml"
+		     KAS_FILES+=":config/raspberry/rpi.yml"
          ;;
    esac
 
@@ -574,14 +574,14 @@ main() {
              # Add additional properties
           	 # OLED Display (I2C)
              if [ -n "${USE_I2C_OLED_DISPLAY}" ]; then
-                 log_info "[INSTALLING] I2C OLED display support"
-          		 KAS_FILES+=":config/i2c.yml:config/i2c-oled-display.yml"
+                 log_warning "[INSTALLING] I2C OLED display support"
+          		 KAS_FILES+=":config/raspberry/rpi-i2c.yml:config/i2c-oled-display.yml"
              fi
           
              # Geekworm X735
              if [ -n "${USE_GEEKWORM_X735_HAT}" ]; then
-                 log_info "[INSTALLING] Geekworm X735 hat support"
-          		 KAS_FILES+=":config/i2c.yml:config/geekworm-x735.yml"
+                 log_warning "[INSTALLING] Geekworm X735 hat support"
+          		 KAS_FILES+=":config/raspberry/rpi-i2c.yml:config/geekworm-x735.yml"
              fi
     
              # Set the image recipe and distro

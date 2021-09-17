@@ -4,6 +4,7 @@ header:
 local_conf_header:
   z79-i2c: |
      IMAGE_INSTALL_append = " bcm2835-dev"
+     IMAGE_INSTALL_append = " libgpiod-dev"
 
      ENABLE_UART = "1"
      ENABLE_I2C = "1"

@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=df3400dd14c520e98b9192195e8b82bb"
 
 inherit pypi setuptools3
 
+RDEPENDS_${PN} = "python3-adafruit-circuitpython-busdevice python3-adafruit-circuitpython-framebuf"
 DEPENDS += "python3-setuptools-scm-native"
 
 PYPI_PACKAGE = "adafruit-circuitpython-ssd1306"
