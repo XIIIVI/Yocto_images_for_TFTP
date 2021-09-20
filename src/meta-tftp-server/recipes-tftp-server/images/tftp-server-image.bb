@@ -9,6 +9,7 @@ RDEPENDS_${PN} += " \
                     libguestfs \                  
 "
 
+IMAGE_INSTALL += "libguestfs"
 IMAGE_INSTALL += "strace"
 
 IMAGE_FEATURES_append = " package-management"
