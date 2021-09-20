@@ -1,6 +1,7 @@
 DESCRIPTION = "Hivex"
 
 LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://MANIFEST.in;md5=5b29c632245f50a2be18f658fedefe12"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
