@@ -19,14 +19,13 @@ DEPENDS = " \
     gperf-native \
     qemu \
     perl \
-    libpcre \
+    libpcre2-dev \
     glibc \
     flex \
     file \
     gettext \
     yajl \
-    bison \
-    byacc \
+    bison-native \
     ncurses \
     po4a \
     cpio \
@@ -39,14 +38,13 @@ RDEPENDS_${PN} = " \
     gperf \
     qemu \
     perl \
-    libpcre \
+    libpcre2 \
     glibc \
     flex \
     file \
     gettext \
     yajl \
-    bison \
-    byacc \
+    bison-native \
     ncurses \
     po4a \
     cpio \
