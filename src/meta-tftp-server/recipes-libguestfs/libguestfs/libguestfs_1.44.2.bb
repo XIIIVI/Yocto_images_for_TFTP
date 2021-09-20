@@ -26,6 +26,7 @@ DEPENDS = " \
     gettext \
     yajl \
     bison-native \
+    hivex \
     jansson \
     ncurses \
     po4a \
@@ -46,6 +47,7 @@ RDEPENDS_${PN} = " \
     gettext \
     yajl \
     bison-native \
+    hivex \
     jansson \
     ncurses \
     po4a \
