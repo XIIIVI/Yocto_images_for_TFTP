@@ -22,4 +22,4 @@ RDEPENDS_${PN} = " \
             perl-native \
 "
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig gettext
