@@ -19,7 +19,7 @@ DEPENDS = " \
     gperf-native \
     qemu \
     perl \
-    libpcre2-dev \
+    libpcre2 \
     glibc \
     flex \
     file \
