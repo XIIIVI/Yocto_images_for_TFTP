@@ -5,6 +5,7 @@ DESCRIPTION = "Directly assign IMAGE_INSTALL and IMAGE_FEATURES for \
 require tftp-server-image-common.inc
 require tftp-server-user.inc
 
+IMAGE_INSTALL += "libguestfs"
 IMAGE_INSTALL += "strace"
 
 IMAGE_FEATURES_append = " package-management"

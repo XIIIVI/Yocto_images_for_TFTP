@@ -1,7 +1,0 @@
-
-#
-# Invoke guestfish from a Docker container
-#
-guestfish () { 
-    docker run -it --rm -v $PWD:/root/$PWD curator/guestfish $@ 
-}
