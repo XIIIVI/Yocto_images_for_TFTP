@@ -13,9 +13,11 @@ SRC_URI[md5sum] = "1b9168c6454ba21c469990d90e4b93b5"
 S = "${WORKDIR}/hivex-${PV}"
 
 DEPENDS = " \
+            perl \
 "
 
 RDEPENDS_${PN} = " \
+            perl \
 "
 
 inherit autotools pkgconfig
