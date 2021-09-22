@@ -294,7 +294,7 @@ save_docker_images() {
  	 else
 	     local IMAGE_SIZE=$(docker images | grep ${DOCKER_IMAGE_NAME} | grep ${DOCKER_IMAGE_VERSION} | awk '{print $NF}')
 
-		 log_debug "[SAVING] Docker image ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} in file ${DOCKER_ARCHIVE}"
+		 log_warning "[SAVING] Docker image ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} in file ${DOCKER_ARCHIVE}"
 		 mkdir -p "${DOCKER_FOLDER}"
 		 docker save "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}" | gzip > "${DOCKER_ARCHIVE}"
 	     chmod 666 "${DOCKER_ARCHIVE}"
@@ -363,18 +363,18 @@ build_and_save_docker_image() {
 	 else
 		 cd "${DIR_DOCKERFILE}" || exit
 
-		 log_debug "[CREATING] Builder ${IMAGE_NAME}"
+		 log_warning "[CREATING] Builder ${IMAGE_NAME}"
 		 docker buildx create --name "${IMAGE_NAME}"
 		 docker buildx use "${IMAGE_NAME}"
 
-		 log_debug "[CREATING] Docker image ${DOCKER_IMAGE_NAME}"
+		 log_warning "[CREATING] Docker image ${DOCKER_IMAGE_NAME}"
 		 docker rmi "${DOCKER_IMAGE_NAME}"
 		 cp "${FILE_DOCKERFILE}" Dockerfile
 		 docker buildx build --platform "${DOCKER_PLATFORM}" -t "${DOCKER_IMAGE_NAME}" --load .
 
          save_docker_images "${IMAGE_NAME}" "latest" "${DIR_DOCKERFILE}" "custom"
 
-		 log_debug "[CLEANING] Builder ${IMAGE_NAME} and image"
+		 log_warning "[CLEANING] Builder ${IMAGE_NAME} and image"
 		 docker rmi "${DOCKER_IMAGE_NAME}"
 		 docker buildx rm "${IMAGE_NAME}"
 		 rm -Rf Dockerfile

@@ -9,7 +9,7 @@ SRC_URI_append = " \
 RDEPENDS_${PN} += "bash"
 
 DIR_SHELL="${libexecdir}"
-DIR_ARCHIVE="${DIR_SHELL}/docker-archives"
+DIR_ARCHIVE="${libexecdir}/docker-archives"
 
 # Change the container location
 # Change the way to start Docker by specifying the container location
