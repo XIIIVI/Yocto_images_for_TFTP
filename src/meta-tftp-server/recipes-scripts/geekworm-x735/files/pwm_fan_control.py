@@ -13,20 +13,23 @@ temp = float(file.read()) / 1000.00
 temp = float('%.2f' % temp)
 file.close()
 
+dutycycle = 0
+
 if(temp > 30):
-  pwm.set_PWM_dutycycle(servo, 40)
+  dutycycle = 40
+elif(temp > 50):
+  dutycycle = 50
+elif(temp > 55):
+  dutycycle = 75
+elif(temp > 60):
+  dutycycle = 90
+elif(temp > 65):
+  dutycycle = 100
+else:
+  dutycycle = 0
 
-if(temp > 50):
-  pwm.set_PWM_dutycycle(servo, 50)
+pwm.set_PWM_dutycycle(servo, dutycycle)
 
-if(temp > 55):
-  pwm.set_PWM_dutycycle(servo, 75)
-
-if(temp > 60):
-  pwm.set_PWM_dutycycle(servo, 90)
-
-if(temp > 65):
-  pwm.set_PWM_dutycycle(servo, 100)
-
-if(temp < 30):
-  pwm.set_PWM_dutycycle(servo, 0)
+f = open("/tmp/fan.speed", "w")
+f.write(str(dutycycle))
+f.close()

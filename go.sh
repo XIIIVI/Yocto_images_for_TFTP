@@ -221,6 +221,7 @@ replace_token() {
 #	- param8: root's password
 #	- param9: user's login
 #	- param10: user's password
+#   - param11: use Geekworm X735
 #
 replace_all_tokens() {
 	 local DISTRO_ARG="${1}"
@@ -243,6 +244,8 @@ replace_all_tokens() {
 	 shift
 	 local USER_PASSWORD_ARG="${1}"
 	 shift
+	 local USE_GEEKWORM_X735_ARG="${1}"
+	 shift
 	 
      log_info "Replacing the tokens"
      replace_token "#-DISTRO-#" "${DISTRO_ARG}"
@@ -252,13 +255,12 @@ replace_all_tokens() {
      replace_token "#-DIR_DATA-#" "${DIR_DATA_ARG}"
      replace_token "#-REF_SPEC-#" "${REF_SPEC_ARG}"
      replace_token "#-HOSTNAME-#" "${CUSTOM_HOSTNAME_ARG}"
-     # replace_token "#-ROOT_PASSWORD-#" "$(password-encryption/hasher -e -s 512 \"${ROOT_PASSWORD_ARG}\" | sed 's#\$#\\\$#g')"
      replace_token "#-ROOT_PASSWORD-#" "${ROOT_PASSWORD_ARG}"
      replace_token "#-TARGET_IMAGE-#" "${TARGET_IMAGE_ARG}"
      replace_token "#-USER_LOGIN-#" "${USER_LOGIN_ARG}"
-     # replace_token "#-USER_PASSWORD-#" "$(password-encryption/hasher -e -s 512 \"${USER_PASSWORD_ARG}\" | sed 's#\$#\\\$#g')"
      replace_token "#-USER_PASSWORD-#" "${USER_PASSWORD_ARG}"
      replace_token "#-BUILD_BRANCH-#" "===BUILD_BRANCH==="
+	 replace_token "#-USE_GEEKWORM_X735-#" "${USE_GEEKWORM_X735_ARG^}"
 }
 
 
@@ -559,7 +561,8 @@ main() {
    # Update the KAS file depending on the targetted machine
    case "${MACHINE}" in 
          *raspberry*)
-		     KAS_FILES+=":config/raspberry/rpi.yml"
+		     KAS_FILES+=":config/rpi.yml"
+        	 MACHINE_PREFIX=${MACHINE_PREFIX:="rpi-"}
          ;;
    esac
 
@@ -575,13 +578,13 @@ main() {
           	 # OLED Display (I2C)
              if [ -n "${USE_I2C_OLED_DISPLAY}" ]; then
                  log_warning "[INSTALLING] I2C OLED display support"
-          		 KAS_FILES+=":config/raspberry/rpi-i2c.yml:config/i2c-oled-display.yml"
+          		 KAS_FILES+=":config/${MACHINE_PREFIX}i2c.yml:config/i2c-oled-display.yml"
              fi
           
              # Geekworm X735
              if [ -n "${USE_GEEKWORM_X735_HAT}" ]; then
                  log_warning "[INSTALLING] Geekworm X735 hat support"
-          		 KAS_FILES+=":config/raspberry/rpi-i2c.yml:config/geekworm-x735.yml"
+          		 KAS_FILES+=":config/${MACHINE_PREFIX}i2c.yml:config/geekworm-x735.yml"
              fi
     
              # Set the image recipe and distro
@@ -627,7 +630,7 @@ main() {
     
              log_info "Preparing the environment"
     
-             replace_all_tokens "${DISTRO}" "${DISTRO_VERSION}" "${TARGET_IMAGE}" "${MACHINE}" "${DIR_DATA}" "${REF_SPEC}" "${CUSTOM_HOSTNAME}" "${ROOT_PASSWORD}" "${USER_LOGIN}" "${USER_PASSWORD}"
+             replace_all_tokens "${DISTRO}" "${DISTRO_VERSION}" "${TARGET_IMAGE}" "${MACHINE}" "${DIR_DATA}" "${REF_SPEC}" "${CUSTOM_HOSTNAME}" "${ROOT_PASSWORD}" "${USER_LOGIN}" "${USER_PASSWORD}" "${USE_GEEKWORM_X735_HAT:=\"false\"}"
              build_and_save_all_docker_images
 
              display_settings

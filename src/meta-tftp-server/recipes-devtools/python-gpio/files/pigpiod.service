@@ -1,0 +1,11 @@
+[Unit]
+Description=Gpio daemon
+
+[Service]
+ExecStart=PIGPIO_INSTALL_DIR/pigpiod
+Type=forking
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

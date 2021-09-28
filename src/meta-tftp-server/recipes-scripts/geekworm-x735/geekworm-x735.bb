@@ -4,9 +4,6 @@ DESCRIPTION = "This recipe installs all the tools required to monitor the Geekwo
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-RDEPENDS_${PN} += "bash python3"
-
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = " \
     file://x735pwr.sh \
@@ -16,8 +13,15 @@ SRC_URI = " \
     file://pwm_fan_control.py \
 "
 
+inherit systemd
+
+RDEPENDS_${PN} += "bash python3 python3-pigpio"
+
 UTILITY_NAME="geekworm-x735"
 DIR_SHELL="${libexecdir}"
+
+SYSTEMD_SERVICE_${PN} = "${UTILITY_NAME}.timer"
+SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 
 do_install() {
     sed -e 's,DIR_INSTALL,${DIR_SHELL},g' -i ${WORKDIR}/${UTILITY_NAME}.service
@@ -32,8 +36,10 @@ do_install() {
     install -m 0444 -D ${WORKDIR}/${UTILITY_NAME}.timer ${D}${systemd_system_unitdir}/${UTILITY_NAME}.timer
 }
 
-SYSTEMD_SERVICE_${PN} += "${UTILITY_NAME}.service"
-SYSTEMD_SERVICE_${PN} += "${UTILITY_NAME}.timer"
+SYSTEMD_SERVICE_${PN} += "\
+         ${UTILITY_NAME}.service \
+         ${UTILITY_NAME}.timer \
+         "
 
 FILES_${PN} += "${systemd_system_unitdir}/${UTILITY_NAME}.service"
 FILES_${PN} += "${systemd_system_unitdir}/${UTILITY_NAME}.timer"

@@ -54,3 +54,7 @@ The table below details the expected parameters.
     
 (4) `Is3r3_38`  if the image is `tftp`, 
     `JuR1_39` if the image is `minimal`
+
+Example 1: generating an image for an TFTP Server embedding an OLED display and the Geekworm X735 hat, the command line looks like
+
+`bash go.sh --image tftp --i2c-oled-display --x735`

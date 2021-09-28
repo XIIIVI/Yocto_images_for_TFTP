@@ -50,8 +50,8 @@ def layout_temperature():
                 1: BigLine(0, 0),
                 2: BigLine(0, 22, font="FontAwesomeSolid.ttf", size=16),
                 3: SmallLine(24, 22, font="Arimo.ttf", size=16),
-                4: BigLine(64, 44, font="FontAwesomeSolid.ttf", size=16),
-                5: SmallLine(64, 44, font="Arimo.ttf", size=16),
+                4: BigLine(0, 44, font="FontAwesomeSolid.ttf", size=16),
+                5: SmallLine(24, 44, font="Arimo.ttf", size=16),
     }
 
 
@@ -82,6 +82,7 @@ def display_network(ipArg, macAddressArg):
 def display_temperature():
     temperature_string = subprocess.check_output(CMD_TEMPERATURE, shell=True).decode("utf-8")
     temperature = int(float(temperature_string) / 1000)
+    useGeekwormX735 = #-USE_GEEKWORM_X735-#
 
     if ( temperature <= 0 ):
        temperature_icon ='\uf2cb'
@@ -99,6 +100,15 @@ def display_temperature():
     oled.text("ENVIRONMENT", 1)
     oled.text(temperature_icon, 2)
     oled.text(str(temperature) + "°C", 3)
+ 
+    if useGeekwormX735:
+       file = open("/tmp/fan.speed")
+       fanSpeed = int(file.read())
+       file.close()
+
+       oled.text('\uf863', 4)
+       oled.text(str(fanSpeed) + " %",5)
+
     oled.show()
 
 
