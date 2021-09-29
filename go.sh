@@ -540,7 +540,7 @@ main() {
     DOCKER_PLATFORM="linux/arm64"  
 	DOCKER_CONTAINER_TO_CLEAN_LIST=()
 	FILE_TO_CLEAN_LIST=()
-
+	
     mkdir -p "${DIR_DOCKER_RECIPE}"
 
     install_kas
@@ -549,13 +549,23 @@ main() {
    
     # Create the symlinks
     if [ ! -L "meta-tftp-server" ] ; then
-         log_info "[CREATING] Symlink meta-tftp-server referencing src/meta-tftp-server"
+         log_warning "[CREATING] Symlink meta-tftp-server referencing src/meta-tftp-server"
 	     ln -s src/meta-tftp-server meta-tftp-server
     fi
 
     if [ ! -L "config" ] ; then
-         log_info "[CREATING] Symlink config referencing src/config"
+         log_warning "[CREATING] Symlink config referencing src/config"
 	     ln -s src/config config
+    fi
+
+    # Extract the version number
+    GITVERSION_CONTENT=$(docker run --rm -v "$(pwd):/repo" gittools/gitversion:5.6.10-alpine.3.12-x64-3.1 /repo)
+
+    if [ $? -eq 0 ]; then
+         log_warning "[EXTRACTING] Using GitVersion to extract the version number of the distro"
+         DISTRO_VERSION=$(echo ${GITVERSION_CONTENT} | jq '.LegacySemVer' | sed 's/"//g')
+    else
+	     log_error "[ERROR] Failing using GitVersion, the distro version is ${DISTRO_VERSION}"
     fi
 
    # Update the KAS file depending on the targetted machine

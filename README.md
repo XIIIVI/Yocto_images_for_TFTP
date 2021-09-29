@@ -39,7 +39,7 @@ The table below details the expected parameters.
 | `--user-login` | (3) | N | Login of the user to create |
 | `--user-password` | (4) | N | Password of the user to create |
 | `--verbose` | - | N | Display the content of the files where token have been replaced |
-| `--version` | - | N | Version of the image to generate |
+| `--version` | (5) | N | Version of the image to generate |
 | `--workdir` | The current directory | N | Folder where cache, temp files, ... are stored AND re-used |
 | `--x735` | - | N | The target uses the [Geekworm X735 fan](https://wiki.geekworm.com/X735) |
 
@@ -54,6 +54,8 @@ The table below details the expected parameters.
     
 (4) `Is3r3_38`  if the image is `tftp`, 
     `JuR1_39` if the image is `minimal`
+
+(5) Automatically retrieved by using GitVersion. In case of failure, the default value is `#-UNKNOWN-#`.
 
 Example 1: generating an image for an TFTP Server embedding an OLED display and the Geekworm X735 hat, the command line looks like
 
