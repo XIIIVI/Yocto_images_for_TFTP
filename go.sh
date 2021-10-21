@@ -302,6 +302,8 @@ save_docker_images() {
 	     chmod 666 "${DOCKER_ARCHIVE}"
 		 test -e "${DOCKER_ARCHIVE}" || { log_error "[ABORTED] The file ${DOCKER_ARCHIVE} is missing ..."; exit; }
 		 log_warning "Size of the file $(ls -alh ${DOCKER_ARCHIVE} | awk '{ print $5 }') / Size of the image ${IMAGE_SIZE}"
+ 
+     	 FILE_TO_CLEAN_LIST+=("${DOCKER_ARCHIVE}")
      fi
 }
 
@@ -383,8 +385,6 @@ build_and_save_docker_image() {
 
  		 cd "${DIR_CURRENT}" || exit
 	 fi	
- 
-	 FILE_TO_CLEAN_LIST+=("${DOCKER_ARCHIVE}")
 }
 
 

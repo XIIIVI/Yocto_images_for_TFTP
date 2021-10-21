@@ -27,8 +27,9 @@ do_configure_prepend() {
 do_install_append() {
      install -d ${D}/${DIR_ARCHIVE}/
 
-     bbnote "The distro is ${DISTRO}"
+     bbwarn "The distro is ${DISTRO}"
      if [ ${@bb.utils.contains('DISTRO', 'tftpos', '1', '0', d)} = "1" ]; then
+         bbwarn "Copying the file ${WORKDIR}/docker/custom-guestfish.dockerar into ${D}/${DIR_ARCHIVE}"
          install -m 0444 -D ${WORKDIR}/docker/custom-guestfish.dockerar ${D}/${DIR_ARCHIVE}
      fi
 }
